@@ -56,9 +56,7 @@ public class KnightBoardCapturerTest {
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-                knightBoardCapture(board1);
-            }
+            () -> knightBoardCapture(board1)
         );
 
         int[][] board2 = {
@@ -74,17 +72,13 @@ public class KnightBoardCapturerTest {
 
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-                knightBoardCapture(board2);
-            }
+            () -> knightBoardCapture(board2)
         );
 
         int[][] board3 = {{}};
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-                knightBoardCapture(board1);
-            }
+            () -> knightBoardCapture(board3)
         );
     }
 }
