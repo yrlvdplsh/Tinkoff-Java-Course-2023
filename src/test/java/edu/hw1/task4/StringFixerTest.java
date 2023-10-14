@@ -23,9 +23,8 @@ public class StringFixerTest {
     @DisplayName("Ввод пустой строки/null")
     public void fixStringTextWithIncorrectInput() {
         String emptyString = "";
-        String nullString = null;
 
         assertThat(fixString(emptyString)).isEqualTo("");
-        assertThat(fixString(nullString)).isEqualTo(null);
+        assertThat(fixString(null)).isEqualTo(null);
     }
 }

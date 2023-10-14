@@ -1,89 +1,58 @@
 package edu.hw1.task3;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
 import static edu.hw1.task3.NestableArraysChecker.isNestable;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NestableArraysCheckerTest {
 
-    @Test
-    @DisplayName("Nestable(не смог перевести) массивы")
-    public void isNestableTestWithCorrectArrays() {
+    @ParameterizedTest
+    @MethodSource("isNestableTestArgs")
+    @DisplayName("Тесты  на вложенность/евложенность и пограничные случаи")
+    public void isNestableTest(long[] firstArray, long[] secondArray, boolean result) {
 
-        long[] array1 = {1, 2, 3, 4};
-        long[] array2 = {0, 6};
-
-        assertThat(isNestable(array1, array2)).isEqualTo(true);
+        assertThat(isNestable(firstArray, secondArray)).isEqualTo(result);
     }
 
-    @Test
-    @DisplayName("Пограничный случай - минимумы/максимумы совпадают")
-    public void isNestableTestWithEdgeCase() {
-
-        long[] array1 = {0, 2, 3, 4};
-        long[] array2 = {0, 6};
-
-        assertThat(isNestable(array1, array2)).isEqualTo(false);
-
-        long[] array3 = {1, 2, 3, 6};
-        long[] array4 = {2, 6};
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
+    private static Stream<Arguments> isNestableTestArgs() {
+        return Stream.of(
+            //Nestable Arrays
+            Arguments.of(new long[] {1, 2, 3, 4}, new long[] {0, 6}, true),
+            //UnNestable Arrays - border case - min/max are equal
+            Arguments.of(new long[] {1, 2, 3, 6}, new long[] {0, 6}, false),
+            Arguments.of(new long[] {0, 2, 3, 4}, new long[] {2, 6}, false),
+            //UnNestable Arrays
+            Arguments.of(new long[] {12, 13, 14}, new long[] {0, 1, 2}, false),
+            Arguments.of(new long[] {1, -1, 3, 6}, new long[] {1, 3}, false),
+            //UnNestable Arrays - size of array is 1
+            Arguments.of(new long[] {12}, new long[] {0, 1, 2}, false),
+            Arguments.of(new long[] {1, -1, 3}, new long[] {1}, false),
+            //UnNestable Arrays - one of arrays is empty
+            Arguments.of(new long[] {1, -1, 3, 6}, new long[] {}, false),
+            Arguments.of(new long[] {}, new long[] {1, -1, 3, 6}, false)
+        );
     }
 
-    @Test
-    @DisplayName("Другие случаи невложенности")
-    public void isNestableTestWithBadArrays() {
+    @ParameterizedTest
+    @MethodSource("isNestableTestWithNullArraysArgs")
+    @DisplayName("Один из массивов null")
+    public void isNestableTestWithNullArrays(long[] firstArray, long[] secondArray) {
 
-        long[] array1 = {12, 13, 14};
-        long[] array2 = {0, 1, 2};
-
-        assertThat(isNestable(array1, array2)).isEqualTo(false);
-
-        long[] array3 = {1, -1, 3, 6};
-        long[] array4 = {1, 3};
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
+        assertThrows(
+            NullPointerException.class,
+            () -> isNestable(firstArray, secondArray)
+        );
     }
 
-    @Test
-    @DisplayName("Один из массивов состоит из 1 элемента")
-    public void isNestableTestWithTooSmallArrays() {
-
-        long[] array1 = {12};
-        long[] array2 = {0, 1, 2};
-
-        assertThat(isNestable(array1, array2)).isEqualTo(false);
-
-        long[] array3 = {1, -1, 3};
-        long[] array4 = {1};
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
-    }
-
-    @Test
-    @DisplayName("Один из массивов пустой/null")
-    public void isNestableTestWithEmptyOrNullArrays() {
-
-        long[] array1 = null;
-        long[] array2 = {0, 1, 2};
-
-        assertThat(isNestable(array1, array2)).isEqualTo(false);
-
-        long[] array3 = {1, -1, 3, 6};
-        long[] array4 = null;
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
-
-        long[] array5 = {1, -1, 3, 6};
-        long[] array6 = {};
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
-
-        long[] array7 = {};
-        long[] array8 = {1, -1, 3, 6};
-
-        assertThat(isNestable(array3, array4)).isEqualTo(false);
+    public static Stream<Arguments> isNestableTestWithNullArraysArgs() {
+        return Stream.of(
+            Arguments.of(null, new long[] {0, 1, 2}),
+            Arguments.of(new long[] {1, -1, 3, 6}, null)
+        );
     }
 }

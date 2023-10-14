@@ -15,7 +15,7 @@ public final class PalindromeChecker {
         for (int i = 0; i < number.length() - 1; i += 2) {
             int digit1 = Character.getNumericValue(number.charAt(i));
             int digit2 = Character.getNumericValue(number.charAt(i + 1));
-            descendant.append(String.valueOf(digit1 + digit2));
+            descendant.append(digit1 + digit2);
         }
 
         return descendant.toString();
