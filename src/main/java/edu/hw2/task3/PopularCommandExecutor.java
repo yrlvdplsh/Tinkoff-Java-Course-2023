@@ -17,17 +17,18 @@ public final class PopularCommandExecutor {
     }
 
     void tryExecute(String command) {
-        ConnectionException cause = null;
+        Exception cause = null;
         for (int i = 0; i < maxAttempts; i++) {
             try (Connection con = manager.getConnection()) {
                 con.execute(command);
+                break;
             } catch (Exception e) {
-                cause = (ConnectionException) e;
+                cause = e;
             }
         }
 
         if (cause != null) {
-            throw cause;
+            throw new ConnectionException(cause);
         }
     }
 }
