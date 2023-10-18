@@ -6,7 +6,7 @@ import edu.hw2.task3.connections.StableConnection;
 import java.util.Random;
 
 public class DefaultConnectionManager implements ConnectionManager {
-    private static final int FAULTY_CHANCE = 4;
+    private static final int FAULTY_CHANCE = 2;
     private final Random random = new Random();
 
     @Override
