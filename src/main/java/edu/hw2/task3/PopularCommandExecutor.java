@@ -8,6 +8,9 @@ public final class PopularCommandExecutor {
     private final int maxAttempts;
 
     public PopularCommandExecutor(ConnectionManager manager, int maxAttempts) {
+        if (maxAttempts < 1) {
+            throw new IllegalArgumentException("параметр maxAttemps должен быть больше 0");
+        }
         this.manager = manager;
         this.maxAttempts = maxAttempts;
     }

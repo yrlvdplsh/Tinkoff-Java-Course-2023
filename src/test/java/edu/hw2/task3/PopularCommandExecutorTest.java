@@ -6,12 +6,29 @@ import edu.hw2.task3.connection_managers.FaultyConnectionManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PopularCommandExecutorTest {
+
+    @ParameterizedTest
+    @CsvSource(value = {
+        "0",
+        "-10"
+    })
+    @DisplayName("Проверка корректности работы программы при передаче некорректного maxAttempts")
+    public void IllegalMaxAttemptsTest(int value) {
+
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new PopularCommandExecutor(new DefaultConnectionManager(), value)
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("updatePackagesArgs")
     @DisplayName("Тестирование PopularCommandExecutor")
