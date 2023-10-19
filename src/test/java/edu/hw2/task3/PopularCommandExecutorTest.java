@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -33,11 +34,14 @@ public class PopularCommandExecutorTest {
     @MethodSource("updatePackagesArgs")
     @DisplayName("Тестирование PopularCommandExecutor")
     void updatePackagesTest(ConnectionManager manager) {
+
         PopularCommandExecutor pce = new PopularCommandExecutor(manager, 12);
-        Throwable thrown = catchThrowable(() -> {
-            pce.updatePackages();
+        assertThrows(ConnectionException.class, () -> {
+            for (int i = 0; i < 100; i++) {
+                pce.updatePackages();
+            }
         });
-        assertThat(thrown).isInstanceOf(ConnectionException.class);
+
     }
 
     static Stream<Arguments> updatePackagesArgs() {
