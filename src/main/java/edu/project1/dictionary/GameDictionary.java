@@ -18,6 +18,7 @@ public class GameDictionary implements Dictionary {
         dictionary.add("sushi");
         dictionary.add("blitzkrieg");
         dictionary.add("tinkoff");
+        dictionary.add("oguzok");
 
         size = dictionary.size();
     }
