@@ -3,7 +3,7 @@ package edu.project1;
 import org.jetbrains.annotations.NotNull;
 
 sealed interface GuessResult {
-     Answer state();
+    Answer state();
 
     int attempt();
 

@@ -1,6 +1,5 @@
 package edu.project1;
 
-import edu.project1.dictionary.GameDictionary;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +12,5 @@ public final class Main {
     }
 
     public static void main(String[] args) {
-        GameDictionary dictionary = new GameDictionary();
-        LOGGER.info(dictionary.getRandomWord());
     }
 }

@@ -5,15 +5,10 @@ import edu.project1.input_and_output.InputHandler;
 import edu.project1.input_and_output.Printer;
 
 class ConsoleHangman {
-    //добавить класс с настройками мб
-    //добавить везде отказоустойчивость блин
-    //проверка ввода и тд
-    //добавить метод, который собирает игру и проверяет/кидает ошибки
-    //может нахер эти эксепшены
+    //мб добавить метод, который собирает игру и проверяет/кидает ошибки
     //обработать ^D
     private final Printer printer;
     private final Session session;
-
     private final InputHandler inputHandler;
 
     ConsoleHangman(int maxAttempts) {
@@ -29,6 +24,7 @@ class ConsoleHangman {
         GuessResult result = null;
         printer.printMessage("Welcome to the Hangman game");
         printer.printMessage("If you want to give up, enter \"exit\"");
+
         while (true) {
             printer.printMessage("Guess a letter:");
             result = tryGuess();
