@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 
 class Session {
     private final Answer answer;
+    private final boolean[] usedLetters;
+    private final static int LETTERS_IN_ALPHABET = 27;
     private final int maxAttempts;
     private int attempts;
 
@@ -11,12 +13,14 @@ class Session {
         this.answer = answer;
         this.maxAttempts = maxAttempts;
         this.attempts = 0;
+        this.usedLetters = new boolean[LETTERS_IN_ALPHABET];
     }
 
     @NotNull public GuessResult guess(char guess) {
         GuessResult result;
-
-        if (!answer.updateUserAnswer(guess)) {
+        if (checkRepeats(guess)) {
+            result = new GuessResult.Repeat(answer, attempts, maxAttempts);
+        } else if (!answer.updateUserAnswer(guess)) {
             attempts++;
             if (attempts >= maxAttempts) {
                 result = new GuessResult.Defeat(answer, attempts, maxAttempts);
@@ -30,6 +34,14 @@ class Session {
         }
 
         return result;
+    }
+
+    private boolean checkRepeats(char guess) {
+        if (usedLetters[guess - 'a']) {
+            return true;
+        }
+        usedLetters[guess - 'a'] = true;
+        return false;
     }
 
     @NotNull public GuessResult giveUp() {

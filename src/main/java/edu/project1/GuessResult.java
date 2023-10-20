@@ -38,4 +38,11 @@ sealed interface GuessResult {
             return String.format("Missed, mistake %d out of %d.", attempt(), maxAttempts());
         }
     }
+
+    record Repeat(Answer state, int attempt, int maxAttempts) implements GuessResult {
+        @Override
+        public @NotNull String message() {
+            return "You have already entered this letter!";
+        }
+    }
 }
