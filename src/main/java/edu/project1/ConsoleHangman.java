@@ -5,14 +5,26 @@ import edu.project1.input_and_output.InputHandler;
 import edu.project1.input_and_output.Printer;
 
 class ConsoleHangman {
-    //мб добавить метод, который собирает игру и проверяет/кидает ошибки
-    //обработать ^D
     private final Printer printer;
+    private GameDictionary dictionary;
     private final Session session;
     private final InputHandler inputHandler;
 
     ConsoleHangman(int maxAttempts) {
-        GameDictionary dictionary = new GameDictionary();
+        dictionary = new GameDictionary();
+        this.inputHandler = new InputHandler();
+        this.printer = new Printer();
+        this.session = new Session(new Answer(dictionary.getRandomWord()), maxAttempts);
+
+        this.run();
+    }
+
+    ConsoleHangman(int maxAttempts, String[] words) throws Exception {
+        dictionary = new GameDictionary(words);
+        if (dictionary.isEmpty()) {
+            throw new Exception("Error! Your dictionary is empty");
+        }
+
         this.inputHandler = new InputHandler();
         this.printer = new Printer();
         this.session = new Session(new Answer(dictionary.getRandomWord()), maxAttempts);
@@ -64,6 +76,13 @@ class ConsoleHangman {
 
     @SuppressWarnings({"checkstyle:UncommentedMain", "checkstyle:MagicNumber"})
     public static void main(String[] args) {
-        new ConsoleHangman(5);
+        String[] myDict = new String[2];
+        myDict[0] = "";
+        myDict[1] = "Stopapupa";
+        try {
+            new ConsoleHangman(5, myDict);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

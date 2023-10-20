@@ -7,7 +7,7 @@ public class DataInputer {
     private final Scanner scanner = new Scanner(System.in);
 
     public DataInputer() {
-        this.inputData = scanner.nextLine();
+        this.inputData = scanner.nextLine().toLowerCase();
     }
 
     public String getInputData() {

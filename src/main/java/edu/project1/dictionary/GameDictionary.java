@@ -23,6 +23,37 @@ public class GameDictionary implements Dictionary {
         size = dictionary.size();
     }
 
+    public GameDictionary(String[] words) {
+        dictionary = new ArrayList<>();
+        for (String word : words) {
+            if (isWord(word)) {
+                dictionary.add(word.toLowerCase());
+            }
+        }
+
+        size = dictionary.size();
+    }
+
+    private boolean isWord(String word) {
+        if (word.isEmpty()) {
+            return false;
+        }
+
+        boolean flag = true;
+        for (char letter : word.toCharArray()) {
+            if (!Character.isLetter(letter)) {
+                flag = false;
+                break;
+            }
+        }
+
+        return flag;
+    }
+
+    public boolean isEmpty() {
+        return dictionary.isEmpty();
+    }
+
     @Override
     public @NotNull String getRandomWord() {
         return dictionary.get(random.nextInt(size));
