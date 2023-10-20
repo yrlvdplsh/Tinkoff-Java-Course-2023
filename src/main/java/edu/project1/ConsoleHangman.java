@@ -1,19 +1,24 @@
 package edu.project1;
 
 import edu.project1.dictionary.GameDictionary;
-import edu.project1.input_and_output.DataInputer;
+import edu.project1.input_and_output.InputHandler;
 import edu.project1.input_and_output.Printer;
 
 class ConsoleHangman {
     //добавить класс с настройками мб
     //добавить везде отказоустойчивость блин
-    //добавить в сессию обработку повторов
     //проверка ввода и тд
+    //добавить метод, который собирает игру и проверяет/кидает ошибки
+    //может нахер эти эксепшены
+    //обработать ^D
     private final Printer printer;
     private final Session session;
 
+    private final InputHandler inputHandler;
+
     ConsoleHangman(int maxAttempts) {
         GameDictionary dictionary = new GameDictionary();
+        this.inputHandler = new InputHandler();
         this.printer = new Printer();
         this.session = new Session(new Answer(dictionary.getRandomWord()), maxAttempts);
 
@@ -35,13 +40,19 @@ class ConsoleHangman {
 
     private GuessResult tryGuess() {
         GuessResult result;
-        DataInputer inputer = new DataInputer();
-        String command = inputer.getInputData();
+        String exitCommand = "exit";
+        String command = inputHandler.next();
 
-        if (command.equals("exit")) {
+        while (command.length() > 1 && !command.equals(exitCommand)) {
+            printer.printMessage(command);
+            printer.printMessage("Try again:");
+
+            command = inputHandler.next();
+        }
+        if (command.equals(exitCommand)) {
             result = session.giveUp();
         } else {
-            char letter = inputer.getInputData().charAt(0);
+            char letter = command.charAt(0);
             result = session.guess(letter);
         }
 
@@ -55,7 +66,8 @@ class ConsoleHangman {
         printer.printMessage(session.getAnswer());
     }
 
-    /*public static void main(String[] args) {
-        ConsoleHangman game = new ConsoleHangman(5);
-    }*/
+    @SuppressWarnings({"checkstyle:UncommentedMain", "checkstyle:MagicNumber"})
+    public static void main(String[] args) {
+        new ConsoleHangman(5);
+    }
 }
