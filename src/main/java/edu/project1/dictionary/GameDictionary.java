@@ -54,6 +54,10 @@ public class GameDictionary implements Dictionary {
         return dictionary.isEmpty();
     }
 
+    public ArrayList<String> getDictionary() {
+        return dictionary;
+    }
+
     @Override
     public @NotNull String getRandomWord() {
         return dictionary.get(random.nextInt(size));
