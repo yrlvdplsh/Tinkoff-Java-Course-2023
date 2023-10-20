@@ -6,9 +6,9 @@ import edu.project1.input_and_output.Printer;
 
 class ConsoleHangman {
     //добавить класс с настройками мб
-    //переделать сессию как единовременное состояние игры
     //добавить везде отказоустойчивость блин
     //добавить в сессию обработку повторов
+    //проверка ввода и тд
     private final Printer printer;
     private final Session session;
 
@@ -34,11 +34,20 @@ class ConsoleHangman {
     }
 
     private GuessResult tryGuess() {
+        GuessResult result;
         DataInputer inputer = new DataInputer();
-        char letter = inputer.getInputData().charAt(0);
-        GuessResult result = session.guess(letter);
+        String command = inputer.getInputData();
+
+        if (command.equals("exit")) {
+            result = session.giveUp();
+        } else {
+            char letter = inputer.getInputData().charAt(0);
+            result = session.guess(letter);
+        }
+
         printState(result);
         return result;
+
     }
 
     private void printState(GuessResult result) {
