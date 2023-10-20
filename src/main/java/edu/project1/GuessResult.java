@@ -35,7 +35,7 @@ sealed interface GuessResult {
     record FailedGuess(Answer state, int attempt, int maxAttempts) implements GuessResult {
         @Override
         public @NotNull String message() {
-            return String.format("Missed, mistake %d out of %d.", attempt() + 1, maxAttempts());
+            return String.format("Missed, mistake %d out of %d.", attempt(), maxAttempts());
         }
     }
 }

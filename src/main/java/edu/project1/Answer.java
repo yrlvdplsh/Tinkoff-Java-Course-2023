@@ -13,15 +13,28 @@ public class Answer {
         Arrays.fill(userAnswer, '*');
     }
 
-    public void updateUserAnswer(char letter) {
+    public boolean updateUserAnswer(char letter) {
+        boolean flag = false;
+
         for (int i = 0; i < answer.length(); i++) {
             if (answer.charAt(i) == letter) {
                 userAnswer[i] = letter;
+                flag = true;
             }
         }
+
+        return flag;
     }
 
     public String getUserAnswer() {
         return new String(userAnswer);
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public boolean isWin() {
+        return answer.equals(getUserAnswer());
     }
 }
