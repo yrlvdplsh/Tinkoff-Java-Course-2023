@@ -7,10 +7,10 @@ class Session {
     private final int maxAttempts;
     private int attempts;
 
-    Session(Answer answer, int maxAttempts, int attempts) {
+    Session(Answer answer, int maxAttempts) {
         this.answer = answer;
         this.maxAttempts = maxAttempts;
-        this.attempts = attempts;
+        this.attempts = 0;
     }
 
     @NotNull public GuessResult guess(char guess) {
@@ -34,5 +34,15 @@ class Session {
 
     @NotNull public GuessResult giveUp() {
         return new GuessResult.Defeat(answer, attempts, maxAttempts);
+    }
+
+    public String getAnswer() {
+        String message = "The word: ";
+        if (answer.isWin() || answer.isDefeat(attempts, maxAttempts)) {
+            message += answer.getAnswer();
+        } else {
+            message += answer.getUserAnswer();
+        }
+        return message;
     }
 }

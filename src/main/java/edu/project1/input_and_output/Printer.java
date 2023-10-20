@@ -8,6 +8,6 @@ public class Printer {
 
     @SuppressWarnings("checkstyle:RegexpSinglelineJava")
     public void printMessage(@NotNull String message) {
-        System.out.println(message);
+        System.out.println("-> " + message);
     }
 }

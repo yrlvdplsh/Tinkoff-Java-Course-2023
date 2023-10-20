@@ -8,26 +8,26 @@ class ConsoleHangman {
     //добавить класс с настройками мб
     //переделать сессию как единовременное состояние игры
     //добавить везде отказоустойчивость блин
-    //подумать что сделать с answer тк он и тут и в сессии
-    private final GameDictionary dictionary;
+    //добавить в сессию обработку повторов
     private final Printer printer;
-    private final Answer answer;
     private final Session session;
 
     ConsoleHangman(int maxAttempts) {
-        this.dictionary = new GameDictionary();
+        GameDictionary dictionary = new GameDictionary();
         this.printer = new Printer();
-        this.answer = new Answer(dictionary.getRandomWord());
-        this.session = new Session(answer, maxAttempts, 0);
+        this.session = new Session(new Answer(dictionary.getRandomWord()), maxAttempts);
+
+        this.run();
     }
 
-    public void run() {
+    private void run() {
         GuessResult result = null;
-        printer.printMessage("Guess a letter:");
+        printer.printMessage("Welcome to the Hangman game");
+        printer.printMessage("If you want to give up, enter \"exit\"");
         while (true) {
+            printer.printMessage("Guess a letter:");
             result = tryGuess();
             if (result instanceof GuessResult.Win || result instanceof GuessResult.Defeat) {
-                printer.printMessage(answer.getAnswer());
                 break;
             }
         }
@@ -37,17 +37,16 @@ class ConsoleHangman {
         DataInputer inputer = new DataInputer();
         char letter = inputer.getInputData().charAt(0);
         GuessResult result = session.guess(letter);
-        answer.updateUserAnswer(letter);
-        printer.printMessage(result.message());
-        printer.printMessage(answer.getUserAnswer());
+        printState(result);
         return result;
     }
 
-    private void printState(GuessResult guess) {
+    private void printState(GuessResult result) {
+        printer.printMessage(result.message());
+        printer.printMessage(session.getAnswer());
     }
 
     /*public static void main(String[] args) {
         ConsoleHangman game = new ConsoleHangman(5);
-        game.run();
     }*/
 }

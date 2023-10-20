@@ -37,4 +37,8 @@ public class Answer {
     public boolean isWin() {
         return answer.equals(getUserAnswer());
     }
+
+    public boolean isDefeat(int attempts, int maxAttempts) {
+        return attempts >= maxAttempts;
+    }
 }
