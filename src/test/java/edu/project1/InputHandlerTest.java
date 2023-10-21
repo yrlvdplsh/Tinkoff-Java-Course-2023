@@ -15,7 +15,6 @@ public class InputHandlerTest {
     @Test
     @DisplayName("Ввод пустой строки")
     public void emptyInputTest() {
-        InputStream is = System.in;
         System.setIn(new ByteArrayInputStream("\n".getBytes()));
 
         InputHandler inputHandler = new InputHandler();
@@ -28,7 +27,6 @@ public class InputHandlerTest {
     @Test
     @DisplayName("Ввод небуквенного значения")
     public void notALetterTest() {
-        InputStream is = System.in;
         System.setIn(new ByteArrayInputStream("*".getBytes()));
 
         InputHandler inputHandler = new InputHandler();
@@ -44,7 +42,6 @@ public class InputHandlerTest {
         String message = "Error: Invalid command! Enter a letter or the command \"exit\"!";
         InputHandler inputHandler = new InputHandler();
 
-        InputStream is = System.in;
         System.setIn(new ByteArrayInputStream("stop".getBytes()));
 
         assertThat(inputHandler.next()).isEqualTo(message);
@@ -57,7 +54,6 @@ public class InputHandlerTest {
         InputHandler inputHandler = new InputHandler();
         String command = input;
 
-        InputStream is = System.in;
         System.setIn(new ByteArrayInputStream(command.getBytes()));
 
         assertThat(inputHandler.next()).isEqualTo(result);

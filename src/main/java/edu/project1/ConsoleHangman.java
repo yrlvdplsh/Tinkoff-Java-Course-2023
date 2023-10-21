@@ -10,7 +10,11 @@ class ConsoleHangman {
     private final Session session;
     private final InputHandler inputHandler;
 
+    @SuppressWarnings("checkstyle:MultipleStringLiterals")
     ConsoleHangman(int maxAttempts) {
+        if (maxAttempts <= 0) {
+            throw  new IllegalArgumentException("Error: maxAttempts is a natural number!");
+        }
         dictionary = new GameDictionary();
         this.inputHandler = new InputHandler();
         this.printer = new Printer();
@@ -20,6 +24,9 @@ class ConsoleHangman {
     }
 
     ConsoleHangman(int maxAttempts, String[] words) throws Exception {
+        if (maxAttempts <= 0) {
+            throw  new IllegalArgumentException("Error: maxAttempts is a natural number!");
+        }
         dictionary = new GameDictionary(words);
         if (dictionary.isEmpty()) {
             throw new Exception("Error! Your dictionary is empty");
@@ -72,17 +79,5 @@ class ConsoleHangman {
     private void printState(GuessResult result) {
         printer.printMessage(result.message());
         printer.printMessage(session.getAnswer());
-    }
-
-    @SuppressWarnings({"checkstyle:UncommentedMain", "checkstyle:MagicNumber"})
-    public static void main(String[] args) {
-        String[] myDict = new String[2];
-        myDict[0] = "";
-        myDict[1] = "Stopapupa";
-        try {
-            new ConsoleHangman(5, myDict);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

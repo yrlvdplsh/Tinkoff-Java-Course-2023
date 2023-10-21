@@ -3,14 +3,14 @@ package edu.project1.input_and_output;
 import java.util.Scanner;
 
 public class DataInputer {
-    private final String inputData;
+    private String inputData;
     private final Scanner scanner = new Scanner(System.in);
 
     public DataInputer() {
-        this.inputData = scanner.nextLine().toLowerCase();
     }
 
     public String getInputData() {
+        this.inputData = scanner.nextLine().toLowerCase();
         return inputData;
     }
 }

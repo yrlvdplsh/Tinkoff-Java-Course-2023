@@ -11,7 +11,6 @@ public class DataInputerTest {
     @Test
     @DisplayName("Проверка работы DataInputer")
     public void dataInputerTest() {
-        InputStream is = System.in;
         System.setIn(new ByteArrayInputStream("Cat".getBytes()));
 
         DataInputer inputer = new DataInputer();
