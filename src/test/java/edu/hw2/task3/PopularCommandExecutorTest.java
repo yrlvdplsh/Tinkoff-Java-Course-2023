@@ -3,16 +3,20 @@ package edu.hw2.task3;
 import edu.hw2.task3.connection_managers.ConnectionManager;
 import edu.hw2.task3.connection_managers.DefaultConnectionManager;
 import edu.hw2.task3.connection_managers.FaultyConnectionManager;
+import edu.hw2.task3.connections.FaultyConnection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import java.util.stream.Stream;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.assertj.core.api.ThrowableAssert.catchThrowable;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 
 public class PopularCommandExecutorTest {
 
@@ -34,20 +38,23 @@ public class PopularCommandExecutorTest {
     @MethodSource("updatePackagesArgs")
     @DisplayName("Тестирование PopularCommandExecutor")
     void updatePackagesTest(ConnectionManager manager) {
-
         PopularCommandExecutor pce = new PopularCommandExecutor(manager, 12);
-        assertThrows(ConnectionException.class, () -> {
-            for (int i = 0; i < 100; i++) {
-                pce.updatePackages();
-            }
-        });
+
+        assertThrows(ConnectionException.class, pce::updatePackages);
 
     }
 
     static Stream<Arguments> updatePackagesArgs() {
+        DefaultConnectionManager dcm = Mockito.mock(DefaultConnectionManager.class);
+        FaultyConnectionManager fcm = Mockito.mock(FaultyConnectionManager.class);
+        FaultyConnection fc = Mockito.mock(FaultyConnection.class);
+        Mockito.doThrow(new ConnectionException()).when(fc).execute(anyString());
+        Mockito.when(dcm.getConnection()).thenReturn(fc);
+        Mockito.when(fcm.getConnection()).thenReturn(fc);
+
         return Stream.of(
-            Arguments.of(new DefaultConnectionManager()),
-            Arguments.of(new FaultyConnectionManager())
+            Arguments.of(dcm),
+            Arguments.of(fcm)
         );
     }
 

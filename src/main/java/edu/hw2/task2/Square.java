@@ -14,7 +14,7 @@ public class Square extends Rectangle {
         super(side, side);
     }
 
-    public Square setSide(int side) {
+    public final Square setSide(int side) {
         return new Square(side);
     }
 }
