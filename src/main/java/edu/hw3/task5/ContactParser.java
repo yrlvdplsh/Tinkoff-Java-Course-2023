@@ -3,39 +3,28 @@ package edu.hw3.task5;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class ContactParser {
-
     private ContactParser() {
     }
 
-    public static List<String> parseContacts(List<String> contacts, String type) {
+    public static ArrayList<Contact> parseContacts(List<String> contacts, String type) {
         if (contacts == null || contacts.isEmpty()) {
-            return Collections.emptyList();
+            return new ArrayList<>(Collections.emptyList());
         }
 
-        TreeSet<String> sortedContacts = new TreeSet<>(ContactParser::compare);
-        sortedContacts.addAll(contacts);
+        ArrayList<Contact> contactList =
+            contacts.stream().map(Contact::getContactFromString).sorted()
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        List<String> result = new ArrayList<>(sortedContacts.stream().toList());
         if (type.equals("ASC")) {
-            return result;
+            return contactList;
         } else if (type.equals("DESC")) {
-            Collections.reverse(result);
-            return result;
+            Collections.reverse(contactList);
+            return contactList;
         } else {
             throw new IllegalArgumentException("unsupported type of sorting!");
         }
-    }
-
-    private static int compare(String contact1, String contact2) {
-        String[] parsedContact1 = contact1.split(" ");
-        String[] parsedContact2 = contact2.split(" ");
-
-        String comparableContact1 = parsedContact1.length > 1 ? parsedContact1[1] : parsedContact1[0];
-        String comparableContact2 = parsedContact2.length > 1 ? parsedContact2[1] : parsedContact2[0];
-
-        return comparableContact1.compareTo(comparableContact2);
     }
 }

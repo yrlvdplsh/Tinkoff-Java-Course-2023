@@ -1,25 +1,20 @@
 package edu.hw3.task5;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Named;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Stream;
-import static edu.hw3.task4.RomanConverter.convertToRoman;
 import static edu.hw3.task5.ContactParser.parseContacts;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+//переделать
 public class ContactParserTest {
     @ParameterizedTest
     @MethodSource("parseContactsCorrectInputTestArgs")
@@ -29,13 +24,15 @@ public class ContactParserTest {
 
     private static Stream<Arguments> parseContactsCorrectInputTestArgs() {
         List<String> list1 = Arrays.asList("John Locke", "Thomas Aquinas", "David Hume", "Rene Descartes");
-        String result1 = "[Thomas Aquinas, Rene Descartes, David Hume, John Locke]";
+        String result1 = "[Contact[name=Thomas, surname=Aquinas], Contact[name=Rene, surname=Descartes],"
+            + " Contact[name=David, surname=Hume], Contact[name=John, surname=Locke]]";
 
         List<String> list2 = Arrays.asList("Paul Erdos", "Leonhard Euler", "Carl Gauss");
-        String result2 = "[Carl Gauss, Leonhard Euler, Paul Erdos]";
-
+        String result2 = "[Contact[name=Carl, surname=Gauss], Contact[name=Leonhard, surname=Euler],"
+        +" Contact[name=Paul, surname=Erdos]]";
         List<String> list3 = Arrays.asList("John Locke", "Thomas", "David Hume", "Rene Descartes");
-        String result3 = "[Rene Descartes, David Hume, John Locke, Thomas]";
+        String result3 = "[Contact[name=Rene, surname=Descartes], Contact[name=David, surname=Hume],"
+        + " Contact[name=John, surname=Locke], Contact[name=Thomas, surname=]]";
 
         return Stream.of(
             Arguments.of(
