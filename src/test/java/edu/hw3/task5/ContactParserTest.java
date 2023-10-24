@@ -2,6 +2,7 @@ package edu.hw3.task5;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Named;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -14,10 +15,10 @@ import static edu.hw3.task5.ContactParser.parseContacts;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-//переделать
 public class ContactParserTest {
     @ParameterizedTest
     @MethodSource("parseContactsCorrectInputTestArgs")
+    @DisplayName("Test with correct data")
     public void parseContactsCorrectInputTest(List<String> inputList, String order, String expected) {
         assertThat(parseContacts(inputList, order).toString()).isEqualTo(expected);
     }
@@ -62,6 +63,13 @@ public class ContactParserTest {
             IllegalArgumentException.class,
             () -> parseContacts(testList, order)
         );
+    }
+
+    @Test
+    @DisplayName("test Contact record: invalid contact name")
+    public void invalidContactNameTest() {
+        assertThrows(IllegalArgumentException.class, () ->Contact.getContactFromString(""));
+        assertThrows(NullPointerException.class, () ->Contact.getContactFromString(null));
     }
 }
 

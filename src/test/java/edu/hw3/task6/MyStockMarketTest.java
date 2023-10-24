@@ -16,7 +16,7 @@ public class MyStockMarketTest {
     @DisplayName("Проверка работы функционала класса MyStockMarket")
     public void stockMarketTest(MyStockMarket market, ArrayList<StockMarket.Stock> answer) {
 
-        assertThat(market.getStonks()).isEqualTo(answer);
+        assertThat(market.getStoksList()).isEqualTo(answer);
         assertThat(market.getMostValuableStock()).isEqualTo(answer.get(0));
 
         market.remove(market.getMostValuableStock());

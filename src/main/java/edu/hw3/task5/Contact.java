@@ -4,8 +4,11 @@ import org.jetbrains.annotations.NotNull;
 
 public record Contact(String name, String surname) implements Comparable<Contact> {
     public static Contact getContactFromString(String contact) {
+        if (contact == null) {
+            throw new NullPointerException("Contact could not be null!");
+        }
         String[] data = contact.split(" ");
-        if (data.length < 1) {
+        if (data.length < 1 || data[0].isEmpty()) {
             throw new IllegalArgumentException("your contact must not be empty!");
         } else if (data.length > 1) {
             return new Contact(data[0], data[1]);
